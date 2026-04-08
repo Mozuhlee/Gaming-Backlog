@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh's Gaming Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:     #1a1410;
+  --paper:   #f5f0e8;
+  --paper2:  #ede8dc;
+  --paper3:  #e4ddd0;
+  --amber:   #c8720a;
+  --amber2:  #e8891a;
+  --amber-l: #fdf3e3;
+  --green:   #2d6a4f;
+  --green-l: #d8f3dc;
+  --red:     #9b2226;
+  --red-l:   #fde8e8;
+  --blue:    #1d4e89;
+  --blue-l:  #dce8f5;
+  --muted:   #7a6f62;
+  --border:  #d4c9b8;
+  --shadow:  rgba(26,20,16,0.12);
+  --ff-hd:   'Playfair Display', Georgia, serif;
+  --ff-bd:   'DM Sans', sans-serif;
+  --ff-mn:   'DM Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--ff-bd);font-size:14px;line-height:1.5;min-height:100vh}
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;background:var(--ink);color:var(--paper);padding:0 40px;box-shadow:0 2px 16px var(--shadow)}
+.header-inner{display:flex;align-items:stretch;justify-content:space-between;max-width:1400px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:16px;padding:14px 0}
+.brand-title{font-family:var(--ff-hd);font-size:20px;font-weight:900;color:var(--paper);letter-spacing:-0.5px;line-height:1}
+.brand-title em{font-style:italic;color:var(--amber2)}
+.brand-stats{display:flex;gap:20px;padding-left:20px;border-left:1px solid rgba(255,255,255,0.12)}
+.bstat{text-align:center}
+.bstat-n{display:block;font-family:var(--ff-mn);font-size:18px;color:var(--amber2);line-height:1}
+.bstat-l{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(245,240,232,0.45);margin-top:2px}
+nav{display:flex;align-items:stretch}
+.nav-btn{padding:0 24px;background:transparent;border:none;color:rgba(245,240,232,0.5);font-family:var(--ff-bd);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border-bottom:3px solid transparent}
+.nav-btn:hover{color:var(--paper)}
+.nav-btn.active{color:var(--amber2);border-bottom-color:var(--amber2)}
+/* ── MAIN ── */
+main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:36px 40px 80px}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ── SECTION HEAD ── */
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.section-title{font-family:var(--ff-hd);font-size:28px;font-weight:900;letter-spacing:-0.5px;line-height:1}
+.section-count{font-family:var(--ff-mn);font-size:12px;color:var(--muted)}
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+input[type=text],input[type=number],textarea,select{font-family:var(--ff-bd);font-size:13px;color:var(--ink);background:white;border:1.5px solid var(--border);outline:none;transition:border-color .2s}
+input[type=text]:focus,input[type=number]:focus,textarea:focus,select:focus{border-color:var(--amber)}
+.s-input{padding:8px 12px 8px 32px;width:240px}
+.f-select{padding:8px 28px 8px 10px;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6f62' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-color:white}
+.btn{padding:8px 18px;font-family:var(--ff-bd);font-size:13px;font-weight:500;border:1.5px solid;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:#2e261e}
+.btn-amber{background:var(--amber);border-color:var(--amber);color:white}
+.btn-amber:hover{background:var(--amber2);border-color:var(--amber2)}
+.btn-ghost{background:transparent;border-color:var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--muted);color:var(--ink)}
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;border:1.5px solid var(--border);background:white}
+table{width:100%;border-collapse:collapse}
+th{font-family:var(--ff-mn);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1.5px solid var(--border);background:var(--paper2);white-space:nowrap;user-select:none}
+td{padding:10px 14px;border-bottom:1px solid var(--paper2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--amber-l)}
+.game-name{font-weight:600;font-size:14px;max-width:280px}
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;font-family:var(--ff-mn);font-size:10px;border-radius:2px;white-space:nowrap}
+.b-unplayed{background:var(--paper2);color:var(--muted)}
+.b-inprogress{background:#fff8e1;color:#92600a;border:1px solid #f0c040}
+.b-dropped{background:var(--red-l);color:var(--red)}
+.b-needrestart{background:var(--blue-l);color:var(--blue)}
+.b-unreleased{background:#f0e6ff;color:#6b3fa0}
+.b-notinterested{background:var(--paper3);color:#aaa}
+.plat-tag{display:inline-block;padding:2px 8px;background:var(--ink);color:var(--paper);font-family:var(--ff-mn);font-size:10px;border-radius:2px}
+.score-chip{font-family:var(--ff-mn);font-size:13px;padding:2px 8px;border-radius:2px}
+.sc-great{background:var(--green-l);color:var(--green)}
+.sc-good{background:#e8f5e9;color:#2e7d32}
+.sc-mid{background:#fff8e1;color:#92600a}
+.sc-low{background:var(--red-l);color:var(--red)}
+.sc-none{color:var(--muted);font-size:12px}
+.hltb-val{font-family:var(--ff-mn);font-size:12px;color:var(--blue)}
+.hltb-none{color:var(--border);font-size:12px}
+.icon-btn{background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:3px;font-size:14px;line-height:1;color:var(--muted);transition:all .15s}
+.icon-btn:hover{background:var(--paper2);color:var(--ink)}
+.icon-btn.red:hover{background:var(--red-l);color:var(--red)}
+/* ── GENERATOR ── */
+.gen-layout{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+.gen-panel{background:white;border:1.5px solid var(--border);padding:24px}
+.gen-panel-title{font-family:var(--ff-hd);font-size:15px;font-weight:700;margin-bottom:20px;padding-bottom:12px;border-bottom:1.5px solid var(--border)}
+.filter-group{margin-bottom:16px}
+.filter-label{display:block;font-family:var(--ff-mn);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.filter-group select,.filter-group input{width:100%;padding:8px 10px}
+.filter-group select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6f62' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-color:white;cursor:pointer}
+.gen-roll-btn{width:100%;padding:14px;background:var(--ink);color:var(--paper);border:none;font-family:var(--ff-hd);font-size:16px;font-style:italic;font-weight:700;cursor:pointer;transition:all .2s;margin-top:8px}
+.gen-roll-btn:hover{background:var(--amber)}
+.gen-roll-btn:active{transform:scale(0.98)}
+.rec-card{background:white;border:1.5px solid var(--border);overflow:hidden;animation:fadeUp .3s ease}
+.rec-card-accent{height:4px;background:linear-gradient(90deg,var(--amber),var(--amber2))}
+.rec-card-body{padding:28px 32px}
+.rec-why{font-family:var(--ff-mn);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.rec-title{font-family:var(--ff-hd);font-size:32px;font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:8px}
+.rec-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.rec-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:16px;max-width:640px}
+.rec-similar{font-size:12px;color:var(--muted);margin-bottom:24px}
+.rec-similar strong{color:var(--ink);font-weight:600}
+.rec-actions{display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;border-top:1.5px solid var(--paper2)}
+.rec-empty{background:white;border:1.5px solid var(--border);padding:80px 40px;text-align:center;color:var(--muted)}
+.rec-empty-icon{font-size:40px;margin-bottom:12px}
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(26,20,16,.6);align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.overlay.open{display:flex}
+.modal{background:white;border:1.5px solid var(--border);width:90%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(26,20,16,.25);animation:fadeUp .22s ease}
+.modal-hd{padding:20px 24px 16px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:var(--ff-hd);font-size:20px;font-weight:700}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted);line-height:1}
+.modal-close:hover{color:var(--ink)}
+.modal-body{padding:24px}
+.modal-ft{padding:16px 24px;border-top:1.5px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.form-row{margin-bottom:16px}
+.form-label{display:block;font-family:var(--ff-mn);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:9px 12px}
+.form-row textarea{resize:vertical;min-height:70px}
+.form-row select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a6f62' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-color:white}
+.form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:9000;background:var(--ink);color:var(--paper);padding:11px 22px;font-size:13px;font-family:var(--ff-bd);box-shadow:0 4px 20px var(--shadow);pointer-events:none;opacity:0;transition:opacity .25s;white-space:nowrap}
+#toast.show{opacity:1}
+.no-rows td{text-align:center;padding:48px;color:var(--muted);font-size:13px}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--paper2)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+@media(max-width:900px){header{padding:0 16px}main{padding:20px 16px 60px}.brand-stats{display:none}.gen-layout{grid-template-columns:1fr}.nav-btn{padding:0 14px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-title">Josh's <em>Gaming</em> Hub</div>
+      <div class="brand-stats">
+        <div class="bstat"><span class="bstat-n" id="s-backlog">0</span><span class="bstat-l">Backlog</span></div>
+        <div class="bstat"><span class="bstat-n" id="s-playing">0</span><span class="bstat-l">Playing</span></div>
+        <div class="bstat"><span class="bstat-n" id="s-done">0</span><span class="bstat-l">Beaten</span></div>
+        <div class="bstat"><span class="bstat-n" id="s-year">0</span><span class="bstat-l">In 2026</span></div>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-tab="backlog">🎮 Backlog</button>
+      <button class="nav-btn" data-tab="completed">✅ Completed</button>
+      <button class="nav-btn" data-tab="generator">🎲 Discover</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- BACKLOG -->
+<div class="tab-panel active" id="tab-backlog">
+  <div class="section-head">
+    <div class="section-title">My Backlog</div>
+    <span class="section-count" id="bl-count"></span>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="s-input" id="bl-search" placeholder="Search backlog…" oninput="renderBacklog()">
+    </div>
+    <select class="f-select" id="bl-plat" onchange="renderBacklog()">
+      <option value="">All Platforms</option>
+    </select>
+    <select class="f-select" id="bl-status" onchange="renderBacklog()">
+      <option value="">All Statuses</option>
+      <option>Unplayed</option><option>In Progress</option><option>Need Restart</option>
+      <option>Dropped</option><option>Unreleased</option><option>Not Interested</option>
+    </select>
+    <select class="f-select" id="bl-sort" onchange="renderBacklog()">
+      <option value="title-asc">Title A→Z</option>
+      <option value="title-desc">Title Z→A</option>
+      <option value="platform">Platform</option>
+      <option value="status">Status</option>
+      <option value="hltb-asc">HLTB Short→Long</option>
+      <option value="hltb-desc">HLTB Long→Short</option>
+    </select>
+    <button class="btn btn-amber" onclick="openModal('modal-add-backlog')">+ Add Game</button>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Game</th><th>Platform</th><th>Status</th><th>Genre</th><th>How Long to Beat</th><th>Actions</th>
+      </tr></thead>
+      <tbody id="bl-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- COMPLETED -->
+
+<div class="tab-panel" id="tab-completed">
+  <div class="section-head">
+    <div class="section-title">Completed Games</div>
+    <span class="section-count" id="cp-count"></span>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="s-input" id="cp-search" placeholder="Search completed…" oninput="renderCompleted()">
+    </div>
+    <select class="f-select" id="cp-year" onchange="renderCompleted()">
+      <option value="">All Years</option>
+      <option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>Pre-2023</option>
+    </select>
+    <select class="f-select" id="cp-sort" onchange="renderCompleted()">
+      <option value="date-desc">Date: Newest First</option>
+      <option value="date-asc">Date: Oldest First</option>
+      <option value="score-desc">Score: High→Low</option>
+      <option value="score-asc">Score: Low→High</option>
+      <option value="title">Title A→Z</option>
+    </select>
+    <button class="btn btn-amber" onclick="openModal('modal-add-completed')">+ Add Game</button>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Game</th><th>When</th><th>Genre</th><th>Score</th><th>Comments</th><th>Actions</th>
+      </tr></thead>
+      <tbody id="cp-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- GENERATOR -->
+
+<div class="tab-panel" id="tab-generator">
+  <div class="section-head">
+    <div class="section-title">Discover New Games</div>
+    <span class="section-count">Curated picks based on your taste</span>
+  </div>
+  <div class="gen-layout">
+    <div>
+      <div class="gen-panel">
+        <div class="gen-panel-title">Filter Picks</div>
+        <div class="filter-group">
+          <label class="filter-label">Genre Mood</label>
+          <select id="gen-genre">
+            <option value="">Any Genre</option>
+            <option>action-adventure</option><option>rpg</option><option>crpg / strategy rpg</option>
+            <option>puzzle / mystery</option><option>platformer</option><option>horror</option>
+            <option>narrative / story</option><option>roguelike</option><option>soulslike</option>
+            <option>metroidvania</option><option>indie</option><option>retro / classic</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Length</label>
+          <select id="gen-length">
+            <option value="">Any Length</option>
+            <option value="short">Short (&lt;10 hrs)</option>
+            <option value="medium">Medium (10–30 hrs)</option>
+            <option value="long">Long (30+ hrs)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Era</label>
+          <select id="gen-era">
+            <option value="">Any Era</option>
+            <option value="modern">Modern (2015+)</option>
+            <option value="mid">Mid Era (2000–2014)</option>
+            <option value="retro">Retro (pre-2000)</option>
+          </select>
+        </div>
+        <button class="gen-roll-btn" onclick="rollRec()">Roll for a Pick →</button>
+      </div>
+    </div>
+    <div id="rec-area">
+      <div class="rec-empty">
+        <div class="rec-empty-icon">🎲</div>
+        <p>Hit <strong>Roll for a Pick</strong> to get a recommendation based on your taste.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- MODALS -->
+
+<!-- Add to Backlog -->
+
+<div class="overlay" id="modal-add-backlog">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Add to Backlog</div><button class="modal-close" onclick="closeModal('modal-add-backlog')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label class="form-label">Game Title *</label><input type="text" id="ab-title" placeholder="e.g. Hollow Knight"></div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Platform</label>
+          <select id="ab-platform">
+            <option>PS5</option><option>PS4</option><option>PS3</option><option>Steam</option><option>Gamepass</option>
+            <option>Switch</option><option>3DS</option><option>DS</option><option>GameBoy</option>
+            <option>Gamecube</option><option>N64</option><option>Wii</option><option>Wii U</option><option>Steam Deck</option><option>?</option>
+          </select>
+        </div>
+        <div class="form-row"><label class="form-label">Status</label>
+          <select id="ab-status"><option>Unplayed</option><option>In Progress</option><option>Need Restart</option><option>Dropped</option><option>Unreleased</option></select>
+        </div>
+      </div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Genre</label><input type="text" id="ab-genre" placeholder="e.g. RPG"></div>
+        <div class="form-row"><label class="form-label">How Long to Beat</label><input type="text" id="ab-hltb" placeholder="e.g. 25 hrs"></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-backlog')">Cancel</button>
+      <button class="btn btn-amber" onclick="addToBacklog()">Add to Backlog</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Completed -->
+
+<div class="overlay" id="modal-add-completed">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Add Completed Game</div><button class="modal-close" onclick="closeModal('modal-add-completed')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label class="form-label">Game Title *</label><input type="text" id="ac-title" placeholder="e.g. Hollow Knight"></div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Year Beaten</label>
+          <select id="ac-year"><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>Pre-2023</option></select>
+        </div>
+        <div class="form-row"><label class="form-label">Month (if known)</label>
+          <select id="ac-month">
+            <option value="0">— Unknown —</option><option value="1">January</option><option value="2">February</option>
+            <option value="3">March</option><option value="4">April</option><option value="5">May</option>
+            <option value="6">June</option><option value="7">July</option><option value="8">August</option>
+            <option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Genre</label><input type="text" id="ac-genre" placeholder="e.g. RPG"></div>
+        <div class="form-row"><label class="form-label">Score (0–100)</label><input type="number" id="ac-score" min="0" max="100" placeholder="—"></div>
+      </div>
+      <div class="form-row"><label class="form-label">Comments</label><textarea id="ac-comments" placeholder="Your thoughts…"></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-completed')">Cancel</button>
+      <button class="btn btn-amber" onclick="submitAddCompleted()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Backlog -->
+
+<div class="overlay" id="modal-edit-backlog">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Edit Game</div><button class="modal-close" onclick="closeModal('modal-edit-backlog')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="eb-id">
+      <div class="form-row"><label class="form-label">Game Title</label><input type="text" id="eb-title"></div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Platform</label>
+          <select id="eb-platform">
+            <option>PS5</option><option>PS4</option><option>PS3</option><option>Steam</option><option>Gamepass</option>
+            <option>Switch</option><option>3DS</option><option>DS</option><option>GameBoy</option>
+            <option>Gamecube</option><option>N64</option><option>Wii</option><option>Wii U</option><option>Steam Deck</option><option>?</option>
+          </select>
+        </div>
+        <div class="form-row"><label class="form-label">Status</label>
+          <select id="eb-status">
+            <option>Unplayed</option><option>In Progress</option><option>Need Restart</option>
+            <option>Dropped</option><option>Unreleased</option><option>Not Interested</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Genre</label><input type="text" id="eb-genre"></div>
+        <div class="form-row"><label class="form-label">How Long to Beat</label><input type="text" id="eb-hltb"></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('modal-edit-backlog')">Cancel</button>
+      <button class="btn btn-amber" onclick="saveEditBacklog()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mark Beaten -->
+
+<div class="overlay" id="modal-beaten">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Mark as Beaten</div><button class="modal-close" onclick="closeModal('modal-beaten')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="bt-id">
+      <input type="hidden" id="bt-source">
+      <div class="form-row"><label class="form-label">Game</label><div id="bt-name" style="font-weight:600;font-size:15px;padding:4px 0"></div></div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Year Beaten</label>
+          <select id="bt-year"><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>Pre-2023</option></select>
+        </div>
+        <div class="form-row"><label class="form-label">Month (if known)</label>
+          <select id="bt-month">
+            <option value="0">— Unknown —</option><option value="1">January</option><option value="2">February</option>
+            <option value="3">March</option><option value="4">April</option><option value="5">May</option>
+            <option value="6">June</option><option value="7">July</option><option value="8">August</option>
+            <option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid2">
+        <div class="form-row"><label class="form-label">Genre</label><input type="text" id="bt-genre" placeholder="Genre"></div>
+        <div class="form-row"><label class="form-label">Score (0–100)</label><input type="number" id="bt-score" min="0" max="100" placeholder="—"></div>
+      </div>
+      <div class="form-row"><label class="form-label">Comments</label><textarea id="bt-comments" placeholder="Your thoughts…"></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('modal-beaten')">Cancel</button>
+      <button class="btn btn-amber" onclick="confirmBeaten()">✅ Mark Beaten</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════
+// HLTB DATA
+// ════════════════════════════════════
+const HLTB = {"Hellblade Senua's Sacrifice":"7 hrs","Monster Hunter Rise":"47 hrs","Elder Scrolls Morrowind":"45 hrs","Assassin's Creed Origins":"30 hrs","Dragon Age Inquisition":"59 hrs","Hi-Fi Rush":"11 hrs","Sonic Frontiers":"16 hrs","Avowed":"30 hrs","Star Wars Squadrons":"8 hrs","Sekiro":"29 hrs","Shadow of War":"34 hrs","Final Fantasy XVI":"43 hrs","Returnal":"14 hrs","Sonic Mania":"5 hrs","The Witcher 3":"51 hrs","Baldur's Gate 1":"40 hrs","Biomutant":"15 hrs","Darksiders":"14 hrs","Deathloop":"16 hrs","Fallout: New Vegas":"28 hrs","Hogwarts Legacy":"28 hrs","Monster Hunter World":"48 hrs","Neverwinter Nights":"58 hrs","Planescape: Torment":"35 hrs","Tiny Tina's Wonderlands":"19 hrs","Warhammer 40k: Space Marine 2":"10 hrs","Mario Wonder":"13 hrs","Super Mario RPG":"16 hrs","The Minish Cap":"10 hrs","Undertale":"6 hrs","Split Fiction":"12 hrs","Star Wars Outlaws":"24 hrs","A Link Between Worlds":"15 hrs","Luigi's Mansion 2":"9 hrs","Pokemon Black/White 2":"36 hrs","Metroid Prime 2":"17 hrs","Fable 3":"12 hrs","Assassin's Creed Odyssey":"44 hrs","The Last of Us":"15 hrs","Alan Wake":"10 hrs","Alan Wake 2":"17 hrs","Assassin's Creed Valhalla":"59 hrs","Astrobot":"8 hrs","Final Fantasy 7 Remake":"34 hrs","Ghost of Yotei":"—","Horizon Forbidden West":"37 hrs","Metal Gear Solid 5":"46 hrs","The Last of Us 2":"24 hrs","Watch Dogs: Legion":"18 hrs","Baldur's Gate 2":"60 hrs","Black Mesa":"13 hrs","Control":"12 hrs","Darksiders 2":"22 hrs","Darksiders 3":"14 hrs","Divinity: Original Sin 2":"59 hrs","Dragon Age The Veilguard":"40 hrs","Dragon's Dogma":"37 hrs","Dragonball Sparking Zero":"20 hrs","Elder Scrolls Arena":"100+ hrs","Elder Scrolls Daggerfall":"100+ hrs","Final Fantasy X":"47 hrs","Ghostrunner 2":"8 hrs","Immortals of Aveum":"14 hrs","Marvel's Midnight Suns":"40 hrs","Prototype":"10 hrs","Prototype 2":"11 hrs","Sonic Adventure 2":"7 hrs","Link's Awakening":"11 hrs","Luigi's Mansion 3":"13 hrs","Metal Gear Solid 1":"12 hrs","Metal Gear Solid 2":"12 hrs","Metal Gear Solid 3":"16 hrs","Metroid Prime":"13 hrs","Paper Mario: The Origami King":"30 hrs","Pokemon BD/Shining Pearl":"27 hrs","Pokemon Legends Z-A":"—","Metroid Prime 3":"12 hrs","Fable 4":"—"};
+
+// ════════════════════════════════════
+// RECOMMENDATION POOL
+// Curated for Josh's taste: narrative, action-adventure, RPG,
+// puzzle/mystery, roguelike, classic Zelda/Sonic, BG3, Detroit,
+// Ghost of Tsushima. Already beaten: Portal, Obra Dinn, Hades,
+// Outer Wilds, Tunic, Katana Zero, Ghostrunner, God of War, BG3.
+// ════════════════════════════════════
+const REC_POOL = [
+  {title:"Hollow Knight",genre:"Action-Adventure / Metroidvania",tags:["action-adventure","metroidvania","indie"],year:2017,hltb:"44 hrs",era:"modern",desc:"A hauntingly beautiful insect kingdom beneath the earth. Tight Soulslike combat, incredible atmosphere, and one of the most acclaimed indie games ever made. If Sekiro's skill-based combat calls to you, this will too.",similar:"Sekiro, Tunic, Metroid Prime"},
+  {title:"Disco Elysium",genre:"Narrative RPG",tags:["narrative / story","rpg","crpg / strategy rpg"],year:2019,hltb:"30 hrs",era:"modern",desc:"A broken detective wakes with amnesia in a decaying city. More novel than game — every choice shapes your fractured psyche. Given how much you loved Detroit, Obra Dinn, and The Forgotten City, this is essential.",similar:"Detroit: Become Human, Outer Wilds, The Forgotten City"},
+  {title:"Nier: Automata",genre:"Action-RPG",tags:["action-adventure","rpg","narrative / story"],year:2017,hltb:"22 hrs",era:"modern",desc:"Android warriors in a post-apocalyptic Earth. Switches genre multiple times mid-game, hides its best story in its third playthrough, and asks real philosophical questions. One of the most memorable games ever made.",similar:"Ghost of Tsushima, Final Fantasy XVI, Katana Zero"},
+  {title:"Red Dead Redemption 2",genre:"Open World",tags:["action-adventure","narrative / story"],year:2018,hltb:"49 hrs",era:"modern",desc:"The definitive cowboy story. Unmatched world-building, one of gaming's greatest narratives, and a slow burn that rewards patience. Your love of Ghost of Tsushima's tragic storytelling lines up perfectly.",similar:"Ghost of Tsushima, The Witcher 3"},
+  {title:"Prey (2017)",genre:"Immersive Sim",tags:["action-adventure","puzzle / mystery"],year:2017,hltb:"18 hrs",era:"modern",desc:"Stranded alone on a space station overrun by alien mimics. Open-ended exploration of Metroid meets narrative mystery of Outer Wilds. One of the most criminally underplayed games of the decade.",similar:"Outer Wilds, Deathloop, Control"},
+  {title:"A Plague Tale: Innocence",genre:"Action-Adventure",tags:["action-adventure","narrative / story"],year:2019,hltb:"13 hrs",era:"modern",desc:"France, 1348. A teenage girl and her little brother flee a rat-ravaged plague land. Cinematic, emotional, relentlessly tense — exactly your wheelhouse based on Ghost of Tsushima and God of War.",similar:"Ghost of Tsushima, The Last of Us"},
+  {title:"Titanfall 2",genre:"FPS",tags:["action-adventure"],year:2016,hltb:"7 hrs",era:"modern",desc:"The most criminally underplayed FPS ever made. Its campaign pulls off time-travel puzzles, parkour combat, and genuine emotional stakes in six hours. Everyone who plays it wishes they had sooner.",similar:"Ghostrunner, Katana Zero"},
+  {title:"Sifu",genre:"Martial Arts Brawler",tags:["action-adventure","soulslike"],year:2022,hltb:"8 hrs",era:"modern",desc:"You age every time you die. A ballet of precise kung fu combat through five beautifully brutal levels. If Sekiro's relentless skill-based flow is what you love, Sifu hits exactly the same nerve.",similar:"Sekiro, Katana Zero, Hi-Fi Rush"},
+  {title:"Pillars of Eternity",genre:"CRPG",tags:["crpg / strategy rpg","rpg"],year:2015,hltb:"47 hrs",era:"modern",desc:"A rich, literate CRPG set in a world questioning the nature of the soul. The modern evolution of BG1/BG2 — better written, more accessible, just as deep. Essential if you're in the CRPG lineage.",similar:"Baldur's Gate 1 & 2, Planescape: Torment, Divinity: Original Sin 2"},
+  {title:"Pathfinder: Wrath of the Righteous",genre:"CRPG",tags:["crpg / strategy rpg","rpg"],year:2021,hltb:"85 hrs",era:"modern",desc:"A massive, mythic CRPG with crusade management and demigod powers. BG3 fans who want more depth and chaos belong here. One of the richest RPGs in years.",similar:"Baldur's Gate 3, Divinity: Original Sin 2"},
+  {title:"Persona 4 Golden",genre:"JRPG",tags:["rpg"],year:2012,hltb:"70 hrs",era:"mid",desc:"A small-town murder mystery wrapped in a JRPG. Warm, character-driven, and genuinely funny. If you've enjoyed anything JRPG adjacent, P4G is where most people fall in love with the genre.",similar:"Fable, Mass Effect, Final Fantasy X"},
+  {title:"Dragon Age: Origins",genre:"RPG",tags:["rpg","crpg / strategy rpg"],year:2009,hltb:"40 hrs",era:"mid",desc:"The definitive BioWare RPG — rich companion relationships, branching political choices, and a dark fantasy world that feels real. Before Inquisition and Veilguard, Origins is where Dragon Age peaked.",similar:"Dragon Age Inquisition, Baldur's Gate 3, Mass Effect"},
+  {title:"Mass Effect 2",genre:"Action-RPG",tags:["rpg","narrative / story","action-adventure"],year:2010,hltb:"28 hrs",era:"mid",desc:"The gold standard for squad-based narrative RPGs. Every companion has a loyalty mission that could get them killed — and it leads to one of gaming's greatest finales. Your Mass Effect journey is incomplete without it.",similar:"Mass Effect, Dragon Age Inquisition, Detroit: Become Human"},
+  {title:"Yakuza 0",genre:"Action-RPG",tags:["rpg","narrative / story","action-adventure"],year:2015,hltb:"32 hrs",era:"modern",desc:"1980s Tokyo. Two men entangled in a real estate conspiracy that spirals into something epic. Brawler combat, deep melodrama, and unhinged side content (disco, karaoke, business management). Nothing else like it.",similar:"Ghost of Tsushima, Fable series"},
+  {title:"Pentiment",genre:"Narrative Mystery",tags:["puzzle / mystery","narrative / story"],year:2022,hltb:"10 hrs",era:"modern",desc:"A medieval illuminated manuscript come to life. You investigate murders across decades in a Bavarian monastery. Given your love of Obra Dinn, Outer Wilds, and The Forgotten City, this is exactly your kind of mystery.",similar:"Return of the Obra Dinn, The Forgotten City, Outer Wilds"},
+  {title:"Paradise Killer",genre:"Open World Mystery",tags:["puzzle / mystery","narrative / story"],year:2020,hltb:"12 hrs",era:"modern",desc:"An open-world murder mystery on a surrealist island outside reality. You find the evidence, build the case, choose who to prosecute — there's no single correct answer. Deeply weird and completely unforgettable.",similar:"Return of the Obra Dinn, The Forgotten City"},
+  {title:"Her Story",genre:"Narrative Mystery",tags:["puzzle / mystery","narrative / story","indie"],year:2015,hltb:"3 hrs",era:"modern",desc:"You search a police database of video clips to piece together what a woman is hiding. One of the most innovative narrative games ever made — perfect for someone who loves detective-style mysteries.",similar:"Return of the Obra Dinn, Hypnospace Outlaw"},
+  {title:"Baba Is You",genre:"Puzzle",tags:["puzzle / mystery","indie"],year:2019,hltb:"12 hrs",era:"modern",desc:"You change the rules of the game by pushing word blocks. The puzzles bend your brain in ways nothing else does. After Outer Wilds and Portal 2, this is the next pure puzzle game you need.",similar:"Outer Wilds, Portal 2"},
+  {title:"Dead Cells",genre:"Roguelike Metroidvania",tags:["roguelike","metroidvania","action-adventure"],year:2018,hltb:"20 hrs",era:"modern",desc:"Fluid, stylish, endlessly replayable — Dead Cells is the best action roguelike outside of Hades. If Cult of the Lamb and Hades got you into the genre, Dead Cells is the obvious next step for pure combat.",similar:"Hades, Returnal"},
+  {title:"Hades 2",genre:"Roguelike",tags:["roguelike"],year:2024,hltb:"25 hrs",era:"modern",desc:"Still in early access but already richer than most finished games. Mel's story is emotionally compelling, the systems are deeper than the original. Your friends group has already clocked it — your turn.",similar:"Hades, Cult of the Lamb"},
+  {title:"Slay the Spire",genre:"Roguelike Deck Builder",tags:["roguelike","crpg / strategy rpg"],year:2019,hltb:"20 hrs",era:"modern",desc:"The game that invented the roguelike deckbuilder genre. Simple to learn, infinitely deep. If Marvel's Midnight Suns is in your backlog for the tactical angle, Slay the Spire is where that DNA is purest.",similar:"Marvel's Midnight Suns, Hades"},
+  {title:"What Remains of Edith Finch",genre:"Narrative",tags:["narrative / story","indie"],year:2017,hltb:"2 hrs",era:"modern",desc:"A tour through a family home where each room tells the story of how a family member died. Each death is shown in a completely different game format. Two hours. You will not forget it.",similar:"Outer Wilds, and Roger, Detroit: Become Human"},
+  {title:"Firewatch",genre:"Narrative Adventure",tags:["narrative / story","indie"],year:2016,hltb:"5 hrs",era:"modern",desc:"A man takes a job as a fire lookout in Wyoming to escape his life. What starts as a quiet character study becomes a mystery. Beautiful, melancholy, and the dialogue is some of the best in any game.",similar:"Outer Wilds, The Forgotten City, Sable"},
+  {title:"Oxenfree",genre:"Narrative Adventure",tags:["narrative / story","indie","puzzle / mystery"],year:2016,hltb:"5 hrs",era:"modern",desc:"Teenagers on a haunted island accidentally open a ghostly rift. Supernatural mystery told through naturalistic teen dialogue that feels real in a way most games don't attempt.",similar:"Dispatch, The Forgotten City, Firewatch"},
+  {title:"Night in the Woods",genre:"Narrative Adventure",tags:["narrative / story","indie"],year:2017,hltb:"8 hrs",era:"modern",desc:"A college dropout cat returns home to find everything changed. About small-town decline, friendship, anxiety, and meaning. Given Dispatch and Cult of the Lamb resonated with you, this will too.",similar:"Dispatch, Outer Wilds, Firewatch"},
+  {title:"Celeste",genre:"Platformer",tags:["platformer","indie","narrative / story"],year:2018,hltb:"8 hrs",era:"modern",desc:"A young woman climbing a mountain while battling depression. One of the most precise, satisfying platformers ever made — and the story earns every pixel of its difficulty.",similar:"Sonic Mania, Mario Wonder"},
+  {title:"Shovel Knight",genre:"Retro Platformer",tags:["platformer","retro / classic","indie"],year:2014,hltb:"8 hrs",era:"modern",desc:"The ultimate love letter to NES-era games. Feels like a long-lost classic from your DS and GBA collection era but with modern polish. Treasure Trove includes three full campaigns.",similar:"Sonic Rush, Sonic Chronicles, Mario Wonder"},
+  {title:"Psychonauts 2",genre:"3D Platformer",tags:["platformer","narrative / story"],year:2021,hltb:"14 hrs",era:"modern",desc:"You dive into people's minds to fix their mental illnesses. Hilariously written, inventive level design, and a surprisingly emotional story about trauma and family.",similar:"Mario Wonder, Untitled Goose Game"},
+  {title:"Resident Evil 2 Remake",genre:"Survival Horror",tags:["horror"],year:2019,hltb:"9 hrs",era:"modern",desc:"The perfect survival horror game. Leon and Claire's Raccoon City nightmare is relentless, claustrophobic, and brilliantly paced. A gateway to the whole RE series.",similar:"Alan Wake, Returnal"},
+  {title:"Blasphemous",genre:"Soulslike Metroidvania",tags:["soulslike","metroidvania","action-adventure"],year:2019,hltb:"15 hrs",era:"modern",desc:"Dark Spanish Catholic imagery fused with brutal Soulslike combat and Metroidvania exploration. Grotesque, beautiful, and deeply weird. If Sekiro has you hungry for more punishing action, this delivers.",similar:"Sekiro, Darksiders"},
+  {title:"Ori and the Will of the Wisps",genre:"Metroidvania",tags:["metroidvania","platformer","indie"],year:2020,hltb:"12 hrs",era:"modern",desc:"One of the most visually stunning games ever made. Fluid platforming, emotional story, genuine wonder. A perfect palate cleanser between heavy games.",similar:"Tunic, Hollow Knight, Metroid Prime"},
+  {title:"Spiritfarer",genre:"Management Narrative",tags:["indie","narrative / story"],year:2020,hltb:"27 hrs",era:"modern",desc:"You ferry the dead to the afterlife, getting to know each soul before they pass on. Cozy on the surface, devastatingly emotional underneath. After Cult of the Lamb's management gameplay, this hits differently.",similar:"Cult of the Lamb, and Roger"},
+  {title:"Chrono Trigger",genre:"JRPG",tags:["retro / classic","rpg"],year:1995,hltb:"24 hrs",era:"retro",desc:"Widely considered the greatest JRPG ever made. Time travel story, multiple endings, combat so elegant it still holds up completely. With your DS backlog, the DS port is the perfect way to play it.",similar:"Super Mario RPG, Pokemon series"},
+  {title:"EarthBound",genre:"JRPG",tags:["retro / classic","rpg","narrative / story"],year:1994,hltb:"25 hrs",era:"retro",desc:"A suburban American kid saves the world with psychic powers. Funny, bizarre, melancholy, ahead of its time. The creative mother of Undertale's entire DNA — and you've already beaten Undertale.",similar:"Undertale, Super Mario RPG, Chrono Trigger"},
+  {title:"The Legend of Zelda: Majora's Mask",genre:"Action-Adventure",tags:["retro / classic","action-adventure","puzzle / mystery"],year:2000,hltb:"16 hrs",era:"mid",desc:"The darkest Zelda — a three-day time loop before the moon destroys the world. Each NPC has a full schedule and story. Given you loved Tears of the Kingdom, Outer Wilds, and The Forgotten City, this is essential.",similar:"Tears of the Kingdom, Outer Wilds, The Forgotten City"},
+  {title:"Banjo-Kazooie",genre:"3D Platformer",tags:["retro / classic","platformer"],year:1998,hltb:"10 hrs",era:"retro",desc:"The gold standard N64 collectathon platformer. Charming, funny, and genuinely inventive level design. With your N64 hardware, this is one of the best things you can experience on it.",similar:"Super Mario RPG, Paper Mario: The Origami King"},
+  {title:"Castlevania: Symphony of the Night",genre:"Metroidvania",tags:["retro / classic","metroidvania","action-adventure"],year:1997,hltb:"11 hrs",era:"retro",desc:"The game that named the genre. Alucard explores a massive, richly detailed castle. Given you're drawn to Metroid Prime and Hollow Knight, this is where it all started.",similar:"Metroid Prime, Hollow Knight, Blasphemous"},
+  {title:"Metroid Fusion",genre:"Metroidvania",tags:["retro / classic","metroidvania","action-adventure"],year:2002,hltb:"8 hrs",era:"mid",desc:"The most tense, atmospheric Metroid game. A horror-tinged Metroidvania on GBA where SA-X hunts you like the Alien. If you're going through the Prime series, Fusion belongs right alongside it.",similar:"Metroid Prime, A Link Between Worlds, Hollow Knight"},
+  {title:"Star Fox 64",genre:"Shooter",tags:["retro / classic","action-adventure"],year:1997,hltb:"2 hrs",era:"retro",desc:"One of the greatest N64 games. Short, intense, and replayable for high scores. With your N64 hardware and a retro itch, this is an easy win.",similar:"Sonic Adventure 2, Star Wars Squadrons"},
+];
+
+// ════════════════════════════════════
+// SEED DATA
+// ════════════════════════════════════
+const MONTHS = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function monthSort(g) {
+  if (g.year==="Pre-2023") return -999999;
+  const y = parseInt(g.year)||0;
+  const m = parseInt(g.month)||0;
+  return y*100+m;
+}
+
+const BACKLOG_INIT = [
+  {id:1,title:"Hellblade Senua's Sacrifice",platform:"Gamepass",status:"Dropped",genre:"Action-Adventure"},
+  {id:2,title:"Monster Hunter Rise",platform:"Gamepass",status:"Dropped",genre:"Action-RPG"},
+  {id:3,title:"Elder Scrolls Morrowind",platform:"Gamepass",status:"Need Restart",genre:"RPG"},
+  {id:4,title:"Assassin's Creed Origins",platform:"PS4",status:"Need Restart",genre:"Action-Adventure"},
+  {id:5,title:"Dragon Age Inquisition",platform:"PS4",status:"Need Restart",genre:"RPG"},
+  {id:6,title:"Hi-Fi Rush",platform:"Gamepass",status:"In Progress",genre:"Rhythm Beat-em-up"},
+  {id:7,title:"Sonic Frontiers",platform:"?",status:"In Progress",genre:"Platformer"},
+  {id:8,title:"Avowed",platform:"Gamepass",status:"In Progress",genre:"RPG"},
+  {id:9,title:"Star Wars Squadrons",platform:"Gamepass",status:"In Progress",genre:"Sim"},
+  {id:10,title:"Sekiro",platform:"PS4",status:"In Progress",genre:"Soulslike"},
+  {id:11,title:"Shadow of War",platform:"PS4",status:"In Progress",genre:"Action-Adventure"},
+  {id:12,title:"Final Fantasy XVI",platform:"PS5",status:"In Progress",genre:"JRPG"},
+  {id:13,title:"Returnal",platform:"PS5",status:"In Progress",genre:"Roguelike Shooter"},
+  {id:14,title:"Sonic Mania",platform:"PS5",status:"In Progress",genre:"Platformer"},
+  {id:15,title:"The Witcher 3",platform:"PS5",status:"In Progress",genre:"RPG"},
+  {id:16,title:"Baldur's Gate 1",platform:"Steam",status:"In Progress",genre:"CRPG"},
+  {id:17,title:"Biomutant",platform:"Steam",status:"In Progress",genre:"Action-RPG"},
+  {id:18,title:"Darksiders",platform:"Steam",status:"In Progress",genre:"Action-Adventure"},
+  {id:19,title:"Deathloop",platform:"Steam",status:"In Progress",genre:"FPS"},
+  {id:20,title:"Fallout: New Vegas",platform:"Steam",status:"In Progress",genre:"RPG"},
+  {id:21,title:"Hogwarts Legacy",platform:"Steam",status:"In Progress",genre:"Action-RPG"},
+  {id:22,title:"Monster Hunter World",platform:"Steam",status:"In Progress",genre:"Action-RPG"},
+  {id:23,title:"Neverwinter Nights",platform:"Steam",status:"In Progress",genre:"CRPG"},
+  {id:24,title:"Planescape: Torment",platform:"Steam",status:"In Progress",genre:"CRPG"},
+  {id:25,title:"Tiny Tina's Wonderlands",platform:"Steam",status:"In Progress",genre:"Looter Shooter"},
+  {id:26,title:"Warhammer 40k: Space Marine 2",platform:"Steam",status:"In Progress",genre:"Action"},
+  {id:27,title:"Mario Wonder",platform:"Switch",status:"In Progress",genre:"Platformer"},
+  {id:28,title:"Super Mario RPG",platform:"Switch",status:"In Progress",genre:"RPG"},
+  {id:29,title:"The Minish Cap",platform:"Switch",status:"In Progress",genre:"Action-Adventure"},
+  {id:30,title:"Undertale",platform:"Switch",status:"In Progress",genre:"RPG"},
+  {id:31,title:"Split Fiction",platform:"?",status:"Unplayed",genre:"Co-op Adventure"},
+  {id:32,title:"Star Wars Outlaws",platform:"?",status:"Unplayed",genre:"Action-Adventure"},
+  {id:33,title:"A Link Between Worlds",platform:"3DS",status:"Unplayed",genre:"Action-Adventure"},
+  {id:34,title:"Luigi's Mansion 2",platform:"3DS",status:"Unplayed",genre:"Action-Adventure"},
+  {id:35,title:"Pokemon Black/White 2",platform:"DS",status:"Unplayed",genre:"RPG"},
+  {id:36,title:"Metroid Prime 2",platform:"Gamecube",status:"Unplayed",genre:"Action-Adventure"},
+  {id:37,title:"Fable 3",platform:"Gamepass",status:"Unplayed",genre:"RPG"},
+  {id:38,title:"Assassin's Creed Odyssey",platform:"PS4",status:"Unplayed",genre:"Action-RPG"},
+  {id:39,title:"The Last of Us",platform:"PS4",status:"Unplayed",genre:"Action-Adventure"},
+  {id:40,title:"Alan Wake",platform:"PS5",status:"Unplayed",genre:"Survival Horror"},
+  {id:41,title:"Alan Wake 2",platform:"PS5",status:"Unplayed",genre:"Survival Horror"},
+  {id:42,title:"Assassin's Creed Valhalla",platform:"PS5",status:"Unplayed",genre:"Action-RPG"},
+  {id:43,title:"Astrobot",platform:"PS5",status:"Unplayed",genre:"Platformer"},
+  {id:44,title:"Final Fantasy 7 Remake",platform:"PS5",status:"Unplayed",genre:"JRPG"},
+  {id:45,title:"Ghost of Yotei",platform:"PS5",status:"Unplayed",genre:"Action-Adventure"},
+  {id:46,title:"Horizon Forbidden West",platform:"PS5",status:"Unplayed",genre:"Action-RPG"},
+  {id:47,title:"Metal Gear Solid 5",platform:"PS5",status:"Unplayed",genre:"Stealth-Action"},
+  {id:48,title:"The Last of Us 2",platform:"PS5",status:"Unplayed",genre:"Action-Adventure"},
+  {id:49,title:"Watch Dogs: Legion",platform:"PS5",status:"Unplayed",genre:"Action-Adventure"},
+  {id:50,title:"Baldur's Gate 2",platform:"Steam",status:"Unplayed",genre:"CRPG"},
+  {id:51,title:"Black Mesa",platform:"Steam",status:"Unplayed",genre:"FPS"},
+  {id:52,title:"Control",platform:"Steam",status:"Unplayed",genre:"Action-Adventure"},
+  {id:53,title:"Darksiders 2",platform:"Steam",status:"Unplayed",genre:"Action-RPG"},
+  {id:54,title:"Darksiders 3",platform:"Steam",status:"Unplayed",genre:"Action-RPG"},
+  {id:55,title:"Divinity: Original Sin 2",platform:"Steam",status:"Unplayed",genre:"CRPG"},
+  {id:56,title:"Dragon Age The Veilguard",platform:"Steam",status:"Unplayed",genre:"RPG"},
+  {id:57,title:"Dragon's Dogma",platform:"Steam",status:"Unplayed",genre:"Action-RPG"},
+  {id:58,title:"Dragonball Sparking Zero",platform:"Steam",status:"Unplayed",genre:"Fighting"},
+  {id:59,title:"Elder Scrolls Arena",platform:"Steam",status:"Unplayed",genre:"RPG"},
+  {id:60,title:"Elder Scrolls Daggerfall",platform:"Steam",status:"Unplayed",genre:"RPG"},
+  {id:61,title:"Final Fantasy X",platform:"Steam",status:"Unplayed",genre:"JRPG"},
+  {id:62,title:"Ghostrunner 2",platform:"Steam",status:"Unplayed",genre:"Action"},
+  {id:63,title:"Immortals of Aveum",platform:"Steam",status:"Unplayed",genre:"FPS-Magic"},
+  {id:64,title:"Marvel's Midnight Suns",platform:"Steam",status:"Unplayed",genre:"Tactical RPG"},
+  {id:65,title:"Prototype",platform:"Steam",status:"Unplayed",genre:"Action"},
+  {id:66,title:"Prototype 2",platform:"Steam",status:"Unplayed",genre:"Action"},
+  {id:67,title:"Sonic Adventure 2",platform:"Steam",status:"Unplayed",genre:"Platformer"},
+  {id:68,title:"Link's Awakening",platform:"Switch",status:"Unplayed",genre:"Action-Adventure"},
+  {id:69,title:"Luigi's Mansion 3",platform:"Switch",status:"Unplayed",genre:"Action-Adventure"},
+  {id:70,title:"Metal Gear Solid 1",platform:"Switch",status:"Unplayed",genre:"Stealth-Action"},
+  {id:71,title:"Metal Gear Solid 2",platform:"Switch",status:"Unplayed",genre:"Stealth-Action"},
+  {id:72,title:"Metal Gear Solid 3",platform:"Switch",status:"Unplayed",genre:"Stealth-Action"},
+  {id:73,title:"Metroid Prime",platform:"Switch",status:"Unplayed",genre:"Action-Adventure"},
+  {id:74,title:"Paper Mario: The Origami King",platform:"Switch",status:"Unplayed",genre:"RPG"},
+  {id:75,title:"Pokemon BD/Shining Pearl",platform:"Switch",status:"Unplayed",genre:"RPG"},
+  {id:76,title:"Pokemon Legends Z-A",platform:"Switch",status:"Unplayed",genre:"RPG"},
+  {id:77,title:"Metroid Prime 3",platform:"Wii",status:"Unplayed",genre:"Action-Adventure"},
+  {id:78,title:"Fable 4",platform:"Gamepass",status:"Unreleased",genre:"RPG"},
+].map(g=>({...g, hltb: HLTB[g.title]||""}));
+
+const COMPLETED_INIT = [
+  {id:2001,title:"Dispatch",year:"2026",month:1,genre:"Choice Based Narrative",score:80,comments:"This is like less of a game than detroit and its still fantastic"},
+  {id:2002,title:"Guardians of the Galaxy",year:"2026",month:1,genre:"Action-Adventure",score:85,comments:"Add another to the list of games Steven tells me is slept on and I will love"},
+  {id:2003,title:"Katana Zero",year:"2026",month:1,genre:"Action-Platformer",score:80,comments:"Yes, that should work."},
+  {id:2004,title:"Cult of the Lamb",year:"2026",month:1,genre:"Roguelike",score:80,comments:"Maybe the start of a new gaming journey…."},
+  {id:2005,title:"DateBoy",year:"2026",month:1,genre:"Indie-Sim",score:60,comments:"Just a silly little thing but the ending was good lol"},
+  {id:2006,title:"and Roger",year:"2026",month:1,genre:"Narrative",score:90,comments:"I cried maybe too much"},
+  {id:2007,title:"Lumines Arise",year:"2026",month:1,genre:"Musical Puzzle",score:75,comments:"Extremely fun and addictive gameplay"},
+  {id:2008,title:"Fable II",year:"2026",month:1,genre:"RPG",score:75,comments:"My hot take is that I like Fable 1 better"},
+  {id:2009,title:"Return of the Obra Dinn",year:"2026",month:2,genre:"Mystery Puzzle",score:95,comments:"In LOVEEEE with this"},
+  {id:2010,title:"Hades",year:"2026",month:2,genre:"Roguelike",score:85,comments:"Proven wrong again on a game I thought I wouldn't like"},
+  {id:2011,title:"Cairn",year:"2026",month:3,genre:"Simulation Adventure",score:90,comments:"What an adventure"},
+  {id:2012,title:"The Exit 8",year:"2026",month:3,genre:"Horror Puzzle",score:60,comments:"Kevin and Chris tricked me"},
+  {id:2013,title:"The Forgotten City",year:"2026",month:3,genre:"Mystery Adventure",score:80,comments:"Lots of very cool twists and turns"},
+  {id:2014,title:"Outer Wilds",year:"2026",month:4,genre:"Puzzle Adventure",score:95,comments:"Not much you can talk about this without spoiling. But I love this typa stuff"},
+  {id:2015,title:"Sword of the Sea",year:"2025",month:1,genre:"Adventure",score:null,comments:"This is my kind of bass brain game"},
+  {id:2016,title:"Sable",year:"2025",month:1,genre:"Adventure",score:null,comments:"Lots to say about this game"},
+  {id:2017,title:"Death Stranding 2: On the Beach",year:"2025",month:3,genre:"Action-Adventure",score:null,comments:""},
+  {id:2018,title:"Pokemon Lazarus (ROMhack)",year:"2025",month:4,genre:"RPG",score:null,comments:"Unsure if game freak will ever do something like this"},
+  {id:2019,title:"Elder Scrolls IV: Oblivion Remaster",year:"2025",month:5,genre:"RPG",score:null,comments:"Sadly i think this is a worse experience than playing the original"},
+  {id:2020,title:"God of War Ragnarok: Valhalla DLC",year:"2025",month:6,genre:"Roguelike",score:null,comments:"Definitely a roguelike I can play"},
+  {id:2021,title:"Tunic",year:"2025",month:7,genre:"Action-Adventure",score:null,comments:"This must've been what it felt like to play Zelda for the first time"},
+  {id:2022,title:"Mass Effect",year:"2025",month:8,genre:"RPG",score:null,comments:"Great story held back by gameplay"},
+  {id:2023,title:"Untitled Goose Game",year:"2025",month:9,genre:"Puzzle",score:null,comments:"Short and sweet"},
+  {id:2024,title:"Pokemon Ultra Sun",year:"2025",month:10,genre:"RPG",score:null,comments:"Alola they can never make me hate you"},
+  {id:2025,title:"Portal",year:"2024",month:1,genre:"Puzzle",score:85,comments:""},
+  {id:2026,title:"Portal 2",year:"2024",month:1,genre:"Puzzle",score:100,comments:""},
+  {id:2027,title:"Star Wars Jedi: Survivor",year:"2024",month:2,genre:"Action-Adventure",score:null,comments:""},
+  {id:2028,title:"A Short Hike",year:"2024",month:3,genre:"Indie Adventure",score:null,comments:"...."},
+  {id:2029,title:"Sonic Chronicles: The Dark Brotherhood",year:"2024",month:4,genre:"RPG",score:null,comments:""},
+  {id:2030,title:"Sonic Rush",year:"2024",month:4,genre:"Platformer",score:null,comments:""},
+  {id:2031,title:"Pokemon Alpha Sapphire",year:"2024",month:4,genre:"RPG",score:null,comments:""},
+  {id:2032,title:"Journey",year:"2024",month:5,genre:"Indie Adventure",score:null,comments:"Pretty game, quick little time killer"},
+  {id:2033,title:"Baldur's Gate 3 (Replay)",year:"2024",month:6,genre:"CRPG",score:null,comments:"One of the greatest ever"},
+  {id:2034,title:"Ghostrunner",year:"2024",month:7,genre:"Action Platform",score:null,comments:""},
+  {id:2035,title:"Ghost of Tsushima",year:"2024",month:8,genre:"Action-Adventure",score:null,comments:"One of the best looking games of all time"},
+  {id:2036,title:"God of War Ragnarok",year:"2024",month:9,genre:"Action-Adventure",score:null,comments:"Probably the most emotional I've ever been about a game"},
+  {id:2037,title:"Deadpool",year:"2024",month:10,genre:"Action-Adventure",score:null,comments:"Definitely mid and dated"},
+  {id:2038,title:"Detroit: Become Human",year:"2024",month:11,genre:"Narrative",score:null,comments:"Video 'game'"},
+  {id:2039,title:"Beyond Good and Evil (Replay)",year:"2023",month:1,genre:"Action-Adventure",score:null,comments:""},
+  {id:2040,title:"Pokemon Scarlet",year:"2023",month:2,genre:"RPG",score:null,comments:""},
+  {id:2041,title:"Minecraft Legends",year:"2023",month:3,genre:"Strategy",score:null,comments:""},
+  {id:2042,title:"Fable",year:"2023",month:4,genre:"RPG",score:null,comments:""},
+  {id:2043,title:"Hypnospace Outlaw",year:"2023",month:5,genre:"Simulation Puzzle",score:null,comments:""},
+  {id:2044,title:"Tears of the Kingdom",year:"2023",month:6,genre:"Action-Adventure",score:null,comments:""},
+  {id:2045,title:"Diablo 4",year:"2023",month:7,genre:"ARPG",score:null,comments:""},
+  {id:2046,title:"Baldur's Gate 3",year:"2023",month:8,genre:"CRPG",score:null,comments:""},
+  {id:2047,title:"Star Wars: Droid Repair Bay",year:"2023",month:9,genre:"VR",score:null,comments:""},
+  {id:2048,title:"Starfield",year:"2023",month:9,genre:"Action-RPG",score:null,comments:""},
+  {id:2049,title:"Spider-Man: Miles Morales",year:"2023",month:10,genre:"Action-Adventure",score:null,comments:""},
+  {id:2050,title:"Cyberpunk 2077",year:"2023",month:11,genre:"Action-RPG",score:null,comments:""},
+  {id:2051,title:"Marvel's Spider-Man 2",year:"2023",month:12,genre:"Action-Adventure",score:null,comments:""},
+  {id:2052,title:"Shadow of the Colossus",year:"2023",month:12,genre:"Action-Adventure",score:null,comments:""},
+];
+
+// ════════════════════════════════════
+// STATE
+// ════════════════════════════════════
+let backlog   = JSON.parse(localStorage.getItem('jgh2_bl')||'null') || BACKLOG_INIT.map(g=>({...g}));
+let completed = JSON.parse(localStorage.getItem('jgh2_cp')||'null') || COMPLETED_INIT.map(g=>({...g}));
+let nextBL = Math.max(...backlog.map(g=>g.id),200)+1;
+let nextCP = Math.max(...completed.map(g=>g.id),3000)+1;
+const declinedRecs = new Set();
+
+function getKnownTitles() {
+  const s = new Set();
+  [...backlog,...completed].forEach(g=>s.add(g.title.toLowerCase().trim()));
+  declinedRecs.forEach(t=>s.add(t));
+  return s;
+}
+function save() {
+  localStorage.setItem('jgh2_bl',JSON.stringify(backlog));
+  localStorage.setItem('jgh2_cp',JSON.stringify(completed));
+}
+
+// ════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════
+function statusBadge(s){
+  const m={'Unplayed':'b-unplayed','In Progress':'b-inprogress','Dropped':'b-dropped','Need Restart':'b-needrestart','Unreleased':'b-unreleased','Not Interested':'b-notinterested'};
+  return `<span class="badge ${m[s]||'b-unplayed'}">${s}</span>`;
+}
+function scoreChip(sc){
+  if(sc===null||sc===undefined||sc==='') return `<span class="score-chip sc-none">—</span>`;
+  const n=+sc, cls=n>=90?'sc-great':n>=75?'sc-good':n>=60?'sc-mid':'sc-low';
+  return `<span class="score-chip ${cls}">${n}</span>`;
+}
+function fmtDate(g){
+  if(g.year==='Pre-2023') return '<span style="color:var(--muted);font-size:12px">Pre-2023</span>';
+  const mo=g.month?MONTHS[g.month]+' ':'';
+  return `<span style="font-family:var(--ff-mn);font-size:12px">${mo}${g.year}</span>`;
+}
+function hltbCell(h){
+  if(!h||h==='—') return `<span class="hltb-none">—</span>`;
+  return `<span class="hltb-val">${h}</span>`;
+}
+function updateStats(){
+  document.getElementById('s-backlog').textContent=backlog.filter(g=>!['Not Interested','Unreleased','Dropped'].includes(g.status)).length;
+  document.getElementById('s-playing').textContent=backlog.filter(g=>g.status==='In Progress').length;
+  document.getElementById('s-done').textContent=completed.length;
+  document.getElementById('s-year').textContent=completed.filter(g=>g.year==='2026').length;
+}
+function getPlatforms(){return[...new Set(backlog.map(g=>g.platform))].sort()}
+function populatePlatSelect(){
+  const sel=document.getElementById('bl-plat'), cur=sel.value;
+  while(sel.options.length>1)sel.remove(1);
+  getPlatforms().forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o)});
+  sel.value=cur;
+}
+let toastTimer;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
+}
+
+// ════════════════════════════════════
+// TABS
+// ════════════════════════════════════
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='backlog')   renderBacklog();
+    if(btn.dataset.tab==='completed') renderCompleted();
+  });
+});
+
+// ════════════════════════════════════
+// BACKLOG
+// ════════════════════════════════════
+function renderBacklog(){
+  const q=document.getElementById('bl-search').value.toLowerCase();
+  const plat=document.getElementById('bl-plat').value;
+  const stat=document.getElementById('bl-status').value;
+  const sort=document.getElementById('bl-sort').value;
+  let list=backlog.filter(g=>{
+    if(q&&!g.title.toLowerCase().includes(q))return false;
+    if(plat&&g.platform!==plat)return false;
+    if(stat&&g.status!==stat)return false;
+    return true;
+  });
+  list.sort((a,b)=>{
+    if(sort==='title-asc')  return a.title.localeCompare(b.title);
+    if(sort==='title-desc') return b.title.localeCompare(a.title);
+    if(sort==='platform')   return a.platform.localeCompare(b.platform)||a.title.localeCompare(b.title);
+    if(sort==='status')     return a.status.localeCompare(b.status)||a.title.localeCompare(b.title);
+    if(sort==='hltb-asc'||sort==='hltb-desc'){
+      const pa=parseFloat(a.hltb)||9999, pb=parseFloat(b.hltb)||9999;
+      return sort==='hltb-asc'?pa-pb:pb-pa;
+    }
+    return 0;
+  });
+  document.getElementById('bl-count').textContent=`${list.length} game${list.length!==1?'s':''}`;
+  const tbody=document.getElementById('bl-tbody');
+  if(!list.length){tbody.innerHTML=`<tr class="no-rows"><td colspan="6">No games match your filters.</td></tr>`;return}
+  tbody.innerHTML=list.map(g=>`<tr>
+    <td><div class="game-name">${g.title}</div></td>
+    <td><span class="plat-tag">${g.platform}</span></td>
+    <td>${statusBadge(g.status)}</td>
+    <td style="color:var(--muted);font-size:13px">${g.genre||'—'}</td>
+    <td>${hltbCell(g.hltb)}</td>
+    <td style="white-space:nowrap">
+      <button class="icon-btn" title="Mark Beaten" onclick="openBeaten(${g.id},'backlog')">✅</button>
+      <button class="icon-btn" title="Edit" onclick="openEditBacklog(${g.id})">✏️</button>
+      <button class="icon-btn red" title="Not Interested" onclick="setNotInterested(${g.id})">✕</button>
+    </td>
+  </tr>`).join('');
+}
+function setNotInterested(id){
+  const g=backlog.find(x=>x.id===id); if(!g)return;
+  g.status='Not Interested'; save(); updateStats(); renderBacklog();
+  toast(`"${g.title}" → Not Interested`);
+}
+
+// ════════════════════════════════════
+// COMPLETED
+// ════════════════════════════════════
+function renderCompleted(){
+  const q=document.getElementById('cp-search').value.toLowerCase();
+  const yr=document.getElementById('cp-year').value;
+  const sort=document.getElementById('cp-sort').value;
+  let list=completed.filter(g=>{
+    if(q&&!g.title.toLowerCase().includes(q))return false;
+    if(yr&&g.year!==yr)return false;
+    return true;
+  });
+  list.sort((a,b)=>{
+    if(sort==='date-desc') return monthSort(b)-monthSort(a);
+    if(sort==='date-asc')  return monthSort(a)-monthSort(b);
+    if(sort==='score-desc')return(b.score??-1)-(a.score??-1);
+    if(sort==='score-asc') return(a.score??101)-(b.score??101);
+    if(sort==='title')     return a.title.localeCompare(b.title);
+    return 0;
+  });
+  document.getElementById('cp-count').textContent=`${list.length} game${list.length!==1?'s':''}`;
+  const tbody=document.getElementById('cp-tbody');
+  if(!list.length){tbody.innerHTML=`<tr class="no-rows"><td colspan="6">No games found.</td></tr>`;return}
+  tbody.innerHTML=list.map(g=>`<tr>
+    <td><div class="game-name">${g.title}</div></td>
+    <td>${fmtDate(g)}</td>
+    <td style="color:var(--muted);font-size:13px">${g.genre||'—'}</td>
+    <td>${scoreChip(g.score)}</td>
+    <td style="font-size:12px;color:var(--muted);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(g.comments||'').replace(/"/g,"'")}">${g.comments||'—'}</td>
+    <td><button class="icon-btn red" title="Remove" onclick="removeCompleted(${g.id})">🗑</button></td>
+  </tr>`).join('');
+}
+function removeCompleted(id){
+  const g=completed.find(x=>x.id===id);
+  if(!g||!confirm(`Remove "${g.title}" from completed?`))return;
+  completed=completed.filter(x=>x.id!==id); save(); updateStats(); renderCompleted();
+  toast(`"${g.title}" removed`);
+}
+
+// ════════════════════════════════════
+// ADD BACKLOG
+// ════════════════════════════════════
+function addToBacklog(){
+  const title=document.getElementById('ab-title').value.trim();
+  if(!title){alert('Enter a title.');return}
+  backlog.push({id:nextBL++,title,platform:document.getElementById('ab-platform').value,status:document.getElementById('ab-status').value,genre:document.getElementById('ab-genre').value.trim(),hltb:document.getElementById('ab-hltb').value.trim()||(HLTB[title]||'')});
+  save(); populatePlatSelect(); updateStats(); renderBacklog();
+  closeModal('modal-add-backlog'); toast(`"${title}" added to backlog`);
+}
+
+// ════════════════════════════════════
+// ADD COMPLETED
+// ════════════════════════════════════
+function submitAddCompleted(){
+  const title=document.getElementById('ac-title').value.trim();
+  if(!title){alert('Enter a title.');return}
+  completed.push({id:nextCP++,title,year:document.getElementById('ac-year').value,month:+document.getElementById('ac-month').value,genre:document.getElementById('ac-genre').value.trim(),score:document.getElementById('ac-score').value!==''?+document.getElementById('ac-score').value:null,comments:document.getElementById('ac-comments').value.trim()});
+  save(); updateStats(); renderCompleted();
+  closeModal('modal-add-completed'); toast(`"${title}" added to completed`);
+}
+
+// ════════════════════════════════════
+// EDIT BACKLOG
+// ════════════════════════════════════
+function openEditBacklog(id){
+  const g=backlog.find(x=>x.id===id); if(!g)return;
+  document.getElementById('eb-id').value=id;
+  document.getElementById('eb-title').value=g.title;
+  document.getElementById('eb-genre').value=g.genre||'';
+  document.getElementById('eb-hltb').value=g.hltb||'';
+  ['eb-platform','eb-status'].forEach(sid=>{
+    const sel=document.getElementById(sid), key=sid==='eb-platform'?'platform':'status';
+    for(let o of sel.options)if(o.value===g[key]){o.selected=true;break}
+  });
+  openModal('modal-edit-backlog');
+}
+function saveEditBacklog(){
+  const id=+document.getElementById('eb-id').value;
+  const g=backlog.find(x=>x.id===id); if(!g)return;
+  g.title=document.getElementById('eb-title').value.trim()||g.title;
+  g.platform=document.getElementById('eb-platform').value;
+  g.status=document.getElementById('eb-status').value;
+  g.genre=document.getElementById('eb-genre').value.trim();
+  g.hltb=document.getElementById('eb-hltb').value.trim();
+  save(); populatePlatSelect(); updateStats(); renderBacklog();
+  closeModal('modal-edit-backlog'); toast(`"${g.title}" updated`);
+}
+
+// ════════════════════════════════════
+// MARK BEATEN
+// ════════════════════════════════════
+function openBeaten(idOrTitle, source){
+  let title='', genre='';
+  if(source==='backlog'){
+    const g=backlog.find(x=>x.id===idOrTitle); if(!g)return;
+    title=g.title; genre=g.genre||'';
+    document.getElementById('bt-id').value=idOrTitle;
+  } else {
+    title=idOrTitle; genre='';
+    document.getElementById('bt-id').value=idOrTitle;
+  }
+  document.getElementById('bt-source').value=source;
+  document.getElementById('bt-name').textContent=title;
+  document.getElementById('bt-genre').value=genre;
+  document.getElementById('bt-score').value='';
+  document.getElementById('bt-comments').value='';
+  document.getElementById('bt-year').value='2026';
+  document.getElementById('bt-month').value='0';
+  openModal('modal-beaten');
+}
+function confirmBeaten(){
+  const src=document.getElementById('bt-source').value;
+  const rawId=document.getElementById('bt-id').value;
+  let title='', genre=document.getElementById('bt-genre').value||'';
+  if(src==='backlog'){
+    const g=backlog.find(x=>x.id===+rawId); if(!g)return;
+    title=g.title; if(!genre)genre=g.genre||'';
+    backlog=backlog.filter(x=>x.id!==+rawId);
+  } else { title=rawId; }
+  const cp={id:nextCP++,title,year:document.getElementById('bt-year').value,month:+document.getElementById('bt-month').value,genre,score:document.getElementById('bt-score').value!==''?+document.getElementById('bt-score').value:null,comments:document.getElementById('bt-comments').value.trim()};
+  completed.push(cp);
+  save(); populatePlatSelect(); updateStats(); renderBacklog(); renderCompleted();
+  closeModal('modal-beaten'); toast(`🎉 "${title}" marked as beaten!`);
+  if(src==='rec') rollRec();
+}
+
+// ════════════════════════════════════
+// GENERATOR
+// ════════════════════════════════════
+function rollRec(){
+  const genreFilter=document.getElementById('gen-genre').value.toLowerCase();
+  const lengthFilter=document.getElementById('gen-length').value;
+  const eraFilter=document.getElementById('gen-era').value;
+  const known=getKnownTitles();
+  let pool=REC_POOL.filter(r=>{
+    if(known.has(r.title.toLowerCase().trim()))return false;
+    if(genreFilter&&!r.tags.some(t=>t===genreFilter||genreFilter===t))return false;
+    if(eraFilter&&r.era!==eraFilter)return false;
+    if(lengthFilter){
+      const hrs=parseFloat(r.hltb)||0;
+      if(lengthFilter==='short'&&hrs>=10)return false;
+      if(lengthFilter==='medium'&&(hrs<10||hrs>30))return false;
+      if(lengthFilter==='long'&&hrs<=30)return false;
+    }
+    return true;
+  });
+  const area=document.getElementById('rec-area');
+  if(!pool.length){area.innerHTML=`<div class="rec-empty"><div class="rec-empty-icon">🤔</div><p>No new picks match those filters.<br>Try broadening your search!</p></div>`;return}
+  const pick=pool[Math.floor(Math.random()*pool.length)];
+  const safeTitle=pick.title.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const safeGenre=pick.genre.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  area.innerHTML=`
+    <div class="rec-card">
+      <div class="rec-card-accent"></div>
+      <div class="rec-card-body">
+        <div class="rec-why">✦ Recommended for you</div>
+        <div class="rec-title">${pick.title}</div>
+        <div class="rec-meta">
+          <span class="badge b-unplayed">${pick.genre}</span>
+          <span class="hltb-val">~${pick.hltb}</span>
+          <span style="font-family:var(--ff-mn);font-size:11px;color:var(--muted)">${pick.year}</span>
+        </div>
+        <div class="rec-desc">${pick.desc}</div>
+        ${pick.similar?`<div class="rec-similar">Because you liked: <strong>${pick.similar}</strong></div>`:''}
+        <div class="rec-actions">
+          <button class="btn btn-primary" onclick="openBeaten('${safeTitle}','rec')">✅ I've already beaten this</button>
+          <button class="btn btn-amber" onclick="addRecToBacklog('${safeTitle}','${safeGenre}','${pick.hltb}')">+ Add to Backlog</button>
+          <button class="btn btn-ghost" onclick="notInterestedRec('${safeTitle}')">✕ Not for me — reroll</button>
+        </div>
+      </div>
+    </div>`;
+}
+function notInterestedRec(title){
+  declinedRecs.add(title.toLowerCase());
+  backlog.push({id:nextBL++,title,platform:'?',status:'Not Interested',genre:'',hltb:''});
+  save(); rollRec();
+}
+function addRecToBacklog(title,genre,hltb){
+  backlog.push({id:nextBL++,title,platform:'?',status:'Unplayed',genre,hltb});
+  save(); populatePlatSelect(); updateStats();
+  toast(`"${title}" added to backlog!`); rollRec();
+}
+
+// ════════════════════════════════════
+// MODALS
+// ════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open')});
+});
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+populatePlatSelect(); updateStats(); renderBacklog();
+</script>
+
+</body>
+</html>
